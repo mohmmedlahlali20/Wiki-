@@ -1,17 +1,10 @@
 <section class="flex flex-row flex-wrap mx-auto">
 <!-- Card Component -->
-  <div
-    class="transition-all duration-150 flex w-full px-4 py-6 md:w-1/2 lg:w-1/3"
-  >
-    <div
-      class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl"
-    >
+  <div class="transition-all duration-150 flex w-full px-4 py-6 md:w-1/2 lg:w-1/3">
+    <div class="flex flex-col items-stretch min-h-full pb-4 mb-6 transition-all duration-150 bg-white rounded-lg shadow-lg hover:shadow-2xl">
       <div class="md:flex-shrink-0">
-        <img
-          src="https://www.unfe.org/wp-content/uploads/2019/04/SM-placeholder-1024x512.png"
-          alt="Blog Cover"
-          class="object-fill w-full rounded-lg rounded-b-none md:h-56"
-        />
+        <img src="imags\cover.webp" alt="Blog Cover" class="object-fill w-full
+         rounded-lg rounded-b-none md:h-56"/>
       </div>
       <div class="flex items-center justify-between px-4 py-2 overflow-hidden">
         <span class="text-xs font-medium text-blue-600 uppercase">
