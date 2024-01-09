@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?php include_once 'TMP\head.php'; ?>
 <div class="min-h-screen bg-gray-100 py-6 flex flex-col justify-center sm:py-12">
     <div class="relative py-3 sm:max-w-xl sm:mx-auto">
@@ -37,3 +38,6 @@
         </div>
     </div>
 </div>
+=======
+<?php 
+>>>>>>> e6e36227f5bfa443d3dbeda330bef8e8db1ff9dd

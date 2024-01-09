@@ -12,7 +12,11 @@
                     creat a new account
                 </h1>
                 
+<<<<<<< HEAD
                 <form class="space-y-4 md:space-y-6" action="index.php?action=loginController" method="post">
+=======
+                <form class="space-y-4 md:space-y-6" action="index.php?action=login" method="post">
+>>>>>>> e6e36227f5bfa443d3dbeda330bef8e8db1ff9dd
                     <div>
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
                             email</label>
