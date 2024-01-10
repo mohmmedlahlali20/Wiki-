@@ -2,31 +2,27 @@
 
 include_once 'APP\model\utilisateurModel\userDAO.php';
 
-<<<<<<< HEAD
 class UserAction {
 
-    public function login() {
-        include_once 'APP\view\view_user\login.php';
+  
+public function  registerCOntroller()  {
+        include_once 'APP\view\view_user\register.php';
     }
-
-    public function loginController() {
-        
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'loginController') {
-
-            
-            
+    
+    public function  register(){
+        var_dump($_POST);
+        print_r($_POST);
+    //    exit('here');
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            var_dump($_POST);
             $email = $_POST['email'];
             $password = $_POST['password'];
             $name = $_POST['name'];
             $role = 'auteur';
-            $user = new User($email,$name,$password,$role);
-
-            
-
+            $user = new User($email,$password,$name,$role);
             try {
-                $userDAO = new UserDAO(); // Make sure UserDAO is defined
-                
-
+                $userDAO = new UserDAO(); 
+                var_dump($userDAO);
                 if ($userDAO->insertUser($user)) {
                     header('Location: index.php');
                     return;
@@ -37,33 +33,47 @@ class UserAction {
             } catch (Exception $e) {
                 echo "Error: " . $e->getMessage();
             }
-        }else{
-            exit('logic cant be done');
         }
-    }
+        }
+  
 
-    public function registerController() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_GET['action']) && $_GET['action'] === 'register') {
-            // Handle registration logic
+
+        public  function login() {
+        include_once 'APP\view\view_user\login.php';
+    }
+    public function loginControlleur() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $email = $_POST['registerEmail'];
             $password = $_POST['registerPassword'];
+            // Sanitize email
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+            // Save $hash_password in the database
+                        $userDAO = new UserDAO();
 
-            // Validate and sanitize inputs (uncomment if needed)
-            // $email = filter_var($email, FILTER_SANITIZE_EMAIL);
+            $user = $userDAO->getUserByEmail($email);
+          
+        if ($_SERVER['$_REQUEST METHOD'] === 'POST') {
+           if ($user && password_verify($hash_password, $user['pswd'])) {
+                if ($user['role'] === 'admin') {
+                    header('Location: dashboard_admin.php');
+                   return ;
+                } else {
+                    header('Location: index.php');
+                   
+                }
+                exit;
+            } else {
+                header('Location: index.php');
 
-            $userDAO = new UserDAO(); // Make sure UserDAO is defined
-            $userDAO->getUserByEmail($email);
-
-            header('Location: index.php');
-            include_once 'APP\view\view_user\registerView.php';
-            exit;
+                exit;
+            }
         }
-    }
-
-    public function register() {
-        include_once 'APP\view\view_user\registerView.php';
-    }
+           
+        }
+    
 }
+    
+  }
 
 // $userAction = new UserAction();
 // $userAction->login();
@@ -72,37 +82,3 @@ class UserAction {
 // $userAction->register();
 
  
-=======
- function login(){
-    include_once 'APP\view\view_user\login.php';
-
- }
-
-function loginController() {
-  
-    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $nom = $_POST['name']; 
-        $role = 'auteur'; 
-        try {
-            $userDAO = new UserDAO();
-            $user = $userDAO->insertUser($email, $nom, $password, $role);
-            if($user === false) {   
-                header('Location: loginIndex.php');
-                return;
-                }  else {
-                    header('Location: index.php');
-                    return;
-                }             
-        } catch (Exception $e) {
-            echo "Error: " . $e->getMessage();
-        }
-    }
-    
-    
-}
-
-login();
-loginController();
->>>>>>> e6e36227f5bfa443d3dbeda330bef8e8db1ff9dd
