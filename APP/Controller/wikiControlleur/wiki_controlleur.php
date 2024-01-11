@@ -24,6 +24,27 @@ class WikiController
         }
     }
 
-   
-}
+
+    public function search(){
+        // Check if the 'search' key is set in the $_GET array
+        $search = isset($_GET['search']) ? $_GET['search'] : '';
     
+        // Rest of your code remains unchanged
+        $wikiDAO = new WikiDAO();
+        $wikiData = $wikiDAO->search($search);
+        
+        if($wikiData) {
+            echo json_encode(
+            array(
+                'wikiData' => $wikiData
+                )
+            );
+        } else {
+            echo json_encode(
+            array('wikiData' => 'not found')
+            );
+        }
+    }
+       
+}
+  

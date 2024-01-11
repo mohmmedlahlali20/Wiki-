@@ -9,9 +9,9 @@ class WikiDAO{
     private $connection;
 
     public function __construct(){
-        // Instantiate the Database class
         $this->connection = Database::getInstance()->getConnection();
     }
+    
     public function InserWiki(Wiki $wiki){
         // Assuming $wiki is an object with properties corresponding to the database columns
         $sql = "INSERT INTO `wiki` (`titre`, `contenu`, `wiki_date`, `isArchive`, `img`, `fk_aut_email`, `fk_cat`) 
@@ -52,11 +52,17 @@ class WikiDAO{
             return null;
         }
     }
+
+    public function search($search){
+        try {
+            $sql = "SELECT * FROM `wiki` WHERE `contenu` LIKE :search";
+            $stmt = $this->connection->prepare($sql);
+            $stmt->execute(['search' => '%' . $search . '%']);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            return null;
+        }
+    }
     
 }
-// $wiki = new WikiDAO();
-// $wikis = $wiki->SelectWiki();
-// // Output the result
-// echo '<pre>';
-// print_r($wikis);
-// echo '</pre>';

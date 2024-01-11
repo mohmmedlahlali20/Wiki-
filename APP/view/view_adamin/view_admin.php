@@ -1,12 +1,41 @@
+<!-- <style>
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
 
-<span class="absolute text-white text-4xl top-5 left-4 cursor-pointer" onclick="openSidebar()">
+.burger-menu {
+    display: none;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+.burger-menu .bar {
+    width: 30px;
+    height: 3px;
+    background-color: #fff;
+    margin: 6px 0;
+}
+
+
+</style>
+<span class="absolute text-white text-4xl top-5 left-4 cursor-pointer" onclick="toggleSidebar()">
     <i class="bi bi-filter-left px-2 bg-gray-900 rounded-md"></i>
 </span>
+
+<div class="burger-menu" onclick="toggleSidebar()">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+</div>
 <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[300px] overflow-y-auto text-center bg-gray-900">
     <div class="text-gray-100 text-xl">
         <div class="p-2.5 mt-1 flex items-center">
             <i class="bi bi-app-indicator px-2 py-1 rounded-md bg-blue-600"></i>
-            <h1 class="font-bold text-gray-200 text-[15px] ml-3">TailwindCSS</h1>
+            <h1 class="font-bold text-gray-200 text-[15px] ml-3">Admin dashboard</h1>
             <i class="bi bi-x cursor-pointer ml-28 lg:hidden" onclick="openSidebar()"></i>
         </div>
         <div class="my-2 bg-gray-600 h-[1px]"></div>
@@ -50,30 +79,20 @@
         <span class="text-[15px] ml-4 text-gray-200 font-bold">Logout</span>
     </div>
 </div>
-<div class="flex justify-center  ">
-    <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5 w-1/2">
-        <table class="w-full text-end border-collapse bg-white text-left text-sm text-gray-500">
-            <!-- Your table content goes here -->
+<div class="flex justify-center">
+    <div class="overflow-hidden rounded-lg border border-gray-600 shadow-md m-5 w-1/2">
+         <table class="w-full text-end border-collapse bg-white text-left text-sm text-gray-500">
             <thead class="bg-gray-50 w-50 mx-5">
                 <tr class="w-50">
-                    <th scope="col" class="px-6 py-4 w-50 font-medium text-gray-900">Name</th>
+                    <th scope="col" class="px-6 py-4 w-50 font-medium text-gray-900">name category </th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">State</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Role</th>
                     <th scope="col" class="px-6 py-4 font-medium text-gray-900">Team</th>
-                   
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100 border-t border-gray-100">
-            <tr>
-                <tr class="hover:bg-gray-50">
+                <tr>
                     <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
-                        <div class="relative h-10 w-10">
-                            <img class="h-full w-full rounded-full object-cover object-center"
-                                src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                                alt="" />
-                            <span
-                                class="absolute right-0 bottom-0 h-2 w-2 rounded-full bg-green-400 ring ring-white"></span>
-                        </div>
                         <div class="text-sm">
                             <div class="font-medium text-gray-700">Steven Jobs</div>
                             <div class="text-gray-400">jobs@sailboatui.com</div>
@@ -105,14 +124,14 @@
                     </td>
                     <td class="px-6 py-4">
                         <div class="flex justify-end gap-4">
-                            <a x-data="{ tooltip: 'Delete' }" href="#">
+                            <a  href="index.php?action=delete&id=1">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="h-6 w-6" x-tooltip="tooltip">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
                                 </svg>
                             </a>
-                            <a x-data="{ tooltip: 'Edite' }" href="#">
+                            <a  href="index.php?action=edit&id=1 ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                     stroke-width="1.5" stroke="currentColor" class="h-6 w-6" x-tooltip="tooltip">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -121,16 +140,57 @@
                             </a>
                         </div>
                     </td>
-                </tr>
+                    
                 </tr>
             </tbody>
         </table>
     </div>
-    <script type="text/javascript">
-    function dropdown() {
-        document.querySelector("#submenu").classList.toggle("hidden");
-        document.querySelector("#arrow").classList.toggle("rotate-0");
-    }
-    dropdown();
-    </script>
+</div>
+
+<script type="text/javascript">
+function dropdown() {
+    document.querySelector("#submenu").classList.toggle("hidden");
+    document.querySelector("#arrow").classList.toggle("rotate-0");
+}
+function toggleSidebar() {
+    var sidebar = document.querySelector('.sidebar');
+    sidebar.classList.toggle('open');
+}
+toggleSidebar() ;
+dropdown();
+</script> -->
+
+<table>
+    
+<div class="flex justify-center">
+    <div class="overflow-hidden rounded-lg border border-gray-600 shadow-md m-5 w-1/2">
+        <table class="w-full text-end border-collapse bg-white text-left text-sm text-gray-500">
+            <!-- ... (your existing table header) ... -->
+            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                <?php if (!empty($categories)): ?>
+                    <?php foreach ($categories as $category): ?>
+                        <tr class="w-50 flex ">
+                            <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                                <div class="text-sm">
+                                    <div class="font-medium text-gray-700"><?= $category['nom_cat'] ?></div>
+                                    <div class="font-medium text-gray-700"><?= $category['cat_date'] ?></div>
+                                </div>
+                            </th>
+                        </tr>
+                        <th class="flex gap-3 px-6 py-4 font-normal text-gray-900">
+                        <div class="text-sm">
+                            <div class="font-medium text-gray-700">Steven Jobs</div>
+                            <div class="text-gray-400">jobs@sailboatui.com</div>
+                        </div>
+                    </th>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>
+                        <td colspan="2">No categories</td>
+                    </tr>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
 
