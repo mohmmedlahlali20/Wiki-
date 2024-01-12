@@ -64,5 +64,14 @@ class WikiDAO{
             return null;
         }
     }
+
+    // public function ArchiverWiki($nom){
+        
+    //         $sql = "UPDATE `wiki` SET `isArchive` = 1 WHERE `id_w` = :id_w";
+    //         $stmt = $this->connection->prepare($sql);
+    //         $stmt->execute(['id_w' => $id_w]);
+    //         return $stmt;
+      
+    //     }
+    }
     
-}

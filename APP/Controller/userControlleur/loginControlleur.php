@@ -1,81 +1,82 @@
 <?php
 
 include_once 'APP\model\utilisateurModel\userDAO.php';
-// include_once '../model/utilisateurModel/userDAO.php';
+
 class UserAction {
 
-public function  register()  {
+    public function register() {
         include_once 'APP\view\view_user\register.php';
     }
-    public function   registerCOntroller(){
-               var_dump($_POST);     
 
+    public function registerController() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            echo 'Register';
             $email = $_POST['email'];
             $password = $_POST['password'];
             $name = $_POST['name'];
             $role = 'auteur';
-            $user = new User($email,$password,$name,$role);
             
-            try {
-                $userDAO = new UserDAO(); 
-                
-                if ($userDAO->insertUser($user)) {
-                    header('Location: index.php');
-                    return;
-                } else {
-                    header('Location: TMP\404.php');
-                    return;
-                }
-            } catch (Exception $e) {
-                echo "Error: " . $e->getMessage();
-            }
-        }
-        }
-  
-
-
-        public  function login () {
-        include_once 'APP\view\view_user\login.php';
-    }
-    public function loginControlleur() {
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            $email = $_POST['registerEmail'];
-            $password = $_POST['registerPassword'];
-
-            $hash_password = password_hash($password, PASSWORD_DEFAULT);
-
             $userDAO = new UserDAO();
             $user = $userDAO->getUserByEmail($email);
-          
-         
-                if ($user && password_verify($hash_password, $user['pswd'])) {
-                    if ($user['role'] === 'admin') {
-                        header('Location: dashboard_admin.php');
-                        error_log('User login successful - admin');
-                        return ;
+
+            if (!$user) {
+                $user = new User($email, $password, $name, $role);
+
+                if ($userDAO->InsertUser($user)) {
+                    header('location: index.php');
+                    exit;
+                } else {
+                    header('Location: TMP/404.php');
+                    exit;
+                }
+            } else {
+                // Handle case where email already exists
+                echo "Email already registered!";
+            }
+        }
+    }
+
+    public function login() {
+        include_once 'APP\view\view_user\login.php';
+    }
+
+    public function loginControlleur() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if (isset($_POST['email']) && isset($_POST['password'])) {
+                $email = $_POST['email'];
+                $enteredPassword = $_POST['password'];
+                $userDAO = new UserDAO();
+                $user = $userDAO->getUserByEmail($email);
+                if ($user) {
+                    if ($enteredPassword === $user['pswd']) {
+                        $_SESSION['user'] = $user;
+    
+                        if (isset($_SESSION['user']['role'])) {
+                            switch ($_SESSION['user']['role']) {
+                                case 'admin':
+                                    header('Location: index.php?action=admin');
+                                    break;
+                                case 'auteur':
+                                    header('Location: index.php?action=auteur');
+                                    break;
+                                default:
+                                    header('Location: TMP/404.php');
+                                    break;
+                            }
+                        } else {
+                            header('Location: TMP/404.php');
+                        }
                     } else {
-                        header('Location: index.php');
-                        error_log('User login successful - non-admin');
-                        return ;
+                        echo ('User login failed');
                     }
                 } else {
-                    header('Location: index.php');
-                    error_log('User login failed');
-                    return ;
+                    echo ('User not found');
                 }
-            
-           
+            } else {
+                echo ('Email or password not set in $_POST');
+            }
         }
-}
+    }
     
-  
+    
+    
 }
-// $userAction = new UserAction();
-// $userAction->login();
-// $userAction->loginController();
-// $userAction->registerController();
-// $userAction->register();
-
- 

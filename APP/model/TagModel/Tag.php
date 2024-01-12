@@ -5,7 +5,7 @@ include_once 'APP\connection\connection.php';
 class Tag{
     private $nom_tag;
 
-    public function __construct( $nom_tag){
+    public function __construct($nom_tag){
         
         $this->nom_tag = $nom_tag;
     }

@@ -14,40 +14,58 @@ class userDAO
         
         $this->connection = Database::getInstance()->getConnection();
     }
-
-    public function InsertUser(User $user) {
-        try {
     
+    public function InsertUser(User $user) {
+        $email = $user->getEmail();
+        $nom = $user->getNom();
+        $hashedPassword = password_hash($user->getPswd(), PASSWORD_DEFAULT); // Use password_hash here
+    
+        if ($this->isEmailExists($email)) {
+            return false; // Email already registered
+        }
+    
+        try {
             $sql = "INSERT INTO `utilisateur` (`email`, `nom`, `pswd`) VALUES (:email, :nom, :hashedPassword)";
             $stmt = $this->connection->prepare($sql);
-            $hashedPassword = password_hash($user->getPswd(), PASSWORD_DEFAULT);
-            $nom = $user->getNom();
-            $email = $user->getEmail();
             $stmt->bindParam(':email', $email);
             $stmt->bindParam(':nom', $nom);
             $stmt->bindParam(':hashedPassword', $hashedPassword);
             $stmt->execute();
-
-            return $stmt;
+    
+            return true; // User inserted successfully
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
-            exit('here');
+            error_log('Error inserting user: ' . $e->getMessage());
+            return false; // Operation failed
         }
     }
     
+
+    private function isEmailExists($email) {
+        $sql = "SELECT COUNT(*) FROM `utilisateur` WHERE `email` = :email";
+        $stmt = $this->connection->prepare($sql);
+        $stmt->bindParam(':email', $email);
+        $stmt->execute();
+
+        return $stmt->fetchColumn() > 0;
+    }
     public function getUserByEmail($email) {
         try {
-            $sql = "SELECT * FROM utilisateur WHERE email = ?";
+            $sql = "SELECT * FROM `utilisateur` WHERE `email` = :email";
             $stmt = $this->connection->prepare($sql);
-            $stmt->bindParam(1, $email, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email);
             $stmt->execute();
-
+    
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
-            return $user;
+    
+            if ($user) {
+                return $user;
+            } else {
+                return false; // User not found
+            }
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            error_log('Error retrieving user by email: ' . $e->getMessage());
+            return false; // Operation failed
         }
     }
     
-
 }

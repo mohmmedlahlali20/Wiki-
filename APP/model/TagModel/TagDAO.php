@@ -23,18 +23,15 @@ class TagDAO
         }
     }
 
-    public function insertTag(Tag $tag){
-        try {
+    public function InsertTag(Tag $tag){
+        
             $sql = "INSERT INTO `tag` (`nom_tag`) VALUES (:nom_tag)";
             $stmt = $this->connection->prepare($sql);
             $nom_tag = $tag->getNom_tag();
-            $stmt->bindParam(':nom_tag', $nom_tag);
+            $stmt->bindParam(':nom_tag', $nom_tag, PDO::PARAM_STR);
             $stmt->execute();
-            return $stmt;
-        } catch (PDOException $e) {
-            error_log("Database error: " . $e->getMessage());
-            return null;
-        }
+            
+        
     }
     public function DeleteTage($nom_tag) {
         try {
