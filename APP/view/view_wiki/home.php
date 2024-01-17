@@ -1,91 +1,112 @@
-<div id="searchResults" class="flex flex-row justify-between flex-wrap"></div>
-<div class="flex flex-row justify-between flex-wrap">
-    <?php foreach ($wikiData as $wiki) : ?>
-    <div class="max-w-2xl mx-auto">
-        <div
-            class="bg-white shadow-md border border-gray-200 rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
+<style>
+    .custom-card-style-2 {
+    background-color: #f0f0f0;
+    border: 2px solid #ccc;
+
+}
+</style>
+
+<div class="search flex-center bg-gray-200">
+    <form>
+        <input type="search" id="inputsearch" name="inputsearch"
+            class="border border-gray-300 rounded text-gray-300 p-2" placeholder="Search">
+    </form>
+    <div class="result"></div>
+</div>
+
+<div class="container flex flex-wrap flex-row my-12 mx-auto px-4 md:px-12">
+    <?php foreach ($wikiData as $wiki): ?>
+        <div class="my-1 px-1 container w-full md:w-1/4 lg:my-4 lg:px-4 lg:w-1/3">
+    <article class="overflow-hidden rounded-lg shadow-lg custom-card-style custom-card-style-2">
             <a href="#">
-                <img class="rounded-t-lg" src="imags\test.jpg" alt="Image not found">
+                <img alt="Placeholder" class="block h-auto w-full" src="imags/test.jpg" alt="Image not found">
             </a>
-            <div class="p-5">
-                <a href="">
-                    <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
-                        <?= $wiki['titre']; ?></h5>
-                </a>
-                <div class="flex flex-wrap items-center flex-1 px-4 py-1 text-center mx-auto">
-                    <a href="index.php?action=allCategory" class="hover:underline">
-                        <h2 class="text-2xl font-bold tracking-normal text-gray-200"><?= $wiki['fk_cat']; ?></h2>
+            <header class="flex items-center justify-between leading-tight p-2 md:p-4">
+                <h1 class="text-lg">
+                    <a class="no-underline hover:underline text-black" href="#">
+                        <?= $wiki->titre; ?><br>
                     </a>
-                </div>
-                <p class="font-normal text-gray-700 mb-3 dark:text-gray-400"><?= $wiki['fk_aut_email']; ?>email</p>
-                <h5 class="font-normal text-gray-700 mb-3 dark:text-gray-400"><?= $wiki['wiki_date']; ?></h5>
-                <p class="font-normal text-gray-700 mb-3 dark:text-gray-400"><?= $wiki['contenu']; ?></p>
-                <!-- <h4 class="font-normal text-gray-700 mb-3 dark:text-gray-400"><?= $wiki['nom']; ?></h4> -->
-                <a href="index.php?action=<?= $wiki['id_w']; ?>"
-                    class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                    Read more
-                    <svg class="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd"
-                            d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
-                            clip-rule="evenodd"></path>
-                    </svg>
+                </h1><br>
+                <p class="text-lg">
+
+                    <a href="index.php?action=show&id=<?= $wiki->id_w; ?>"
+                        class="text-bleu-700 no-underline hover:underline">read more</a>
+                </p>
+                <p class="text-grey-darker text-sm">
+                    <?= $wiki->wiki_date; ?><br>
+                </p>
+            </header>
+            <footer class="flex items-center justify-between leading-none p-2 md:p-4">
+                <a class="flex items-center no-underline hover:underline text-black" href="#">
+                    <img alt="Placeholder" class="block rounded-full" src="https://picsum.photos/32/32/?random">
+                    <p class="ml-2 text-sm">
+                        <?= $wiki->fk_aut_email; ?>
+                    </p>
                 </a>
-            </div>
-        </div>
+                <p>
+                    <a class="no-underline text-grey-darker hover:text-red-dark" href="#">
+                        <span class="hidden"></span>
+                    </a>
+                </p>
+                <a class="no-underline text-grey-darker hover:text-red-dark" href="#">
+                    <span class="hidden">Like</span>
+                    <i class="fa fa-heart"></i>
+                    <span class="hidden">save</span>
+                    <i class="fa fa-bookmark"></i>
+                </a>
+            </footer>
+        </article>
     </div>
     <?php endforeach; ?>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<!-- <script>
-    $(document).ready(function () {
-    $('#search').on('keyup', function () {
-        var query = $(this).val();
+<script src="https://kit.fontawesome.com/c0bae2ffa6.js" crossorigin="anonymous"></script>
+<script>
+function showFullContent(id) {
+    var content = document.getElementById(id).innerText;
+    alert(content);
+}
+document.addEventListener("DOMContentLoaded", function() {
+    let input = document.getElementById("inputsearch");
 
-        $.ajax({
-            type: 'GET',
-            url: 'index.php?action=search',
-            data: { query: query },
-            dataType: 'json',
-            success: function (data) {
-                // Clear the search results
-                $('#searchResults').html('');
+    input.addEventListener("keyup", function(event) {
+        let searchTerm = event.target.value.trim();
 
-                // $('#searchResults').empty(); 
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', `index.php?action=search&searchTerm=${searchTerm}`, true);
 
-                if (data.wikiData === 'not found') {
-                    $('#searchResults').html('<p>No results found</p>');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    try {
+                        let data = JSON.parse(xhr.responseText);
+                        console.log(data);
+                        // Handle the received data as needed
+                    } catch (e) {
+                        console.error('Error parsing JSON:', e);
+                    }
                 } else {
-                    // Iterate through each result and append to the card
-                    $.each(data.wikiData, function(index, wiki) {
-                        var resultHtml = `
-                            <div class="max-w-2xl mx-auto">
-                                 Your card HTML here -->
-<!-- <h5 class="text-gray-900 font-bold text-2xl tracking-tight mb-2 dark:text-white">
-                                    ${wiki.titre}
-                                </h5>
-                                 Other card content here -->
-<!-- <a href="index.php?action=view_wiki&id=${wiki.id_w}" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                                    Read more
-                                    <svg class="-mr-1 ml-2 h-4 w-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                                     </svg> -->
-<!-- </a> -->
-<!-- End of your card HTML -->
-<!-- </div> --> 
-<!-- `;
+                    console.error('Error fetching data:', xhr.status, xhr.statusText);
+                }
+            }
+        };
 
-// Append the resultHtml to the searchResults div
-$('#searchResults').append(resultHtml);
-});
-}
-},
-error: function () {
-console.log('Error fetching data');
-}
-});
-});
-});
 
-</script> --> 
+        xhr.send();
+    });
+
+    function displaySearchResults(data) {
+
+        let resultDiv = document.querySelector('.result');
+        resultDiv.innerHTML = ''; // Clear previous results
+
+        data.forEach(function(wiki) {
+
+            let resultItem = document.createElement('div');
+            resultItem.textContent = wiki.titre;
+            resultDiv.appendChild(resultItem);
+        });
+    }
+});
+</script>

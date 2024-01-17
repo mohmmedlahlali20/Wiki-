@@ -13,20 +13,20 @@ class Wiki{
 
     private $isArchive;
 
-    private $img;
+  
 
     private $fk_aut_email;
 
      private $fk_cat;
 
-public function __construct($id_w , $titre ,$contenu,$wiki_date , $isArchive , $img ,$fk_aut_email , $fk_cat){
+public function __construct($id_w , $titre ,$contenu,$wiki_date , $isArchive  ,$fk_aut_email , $fk_cat){
 
     $this->id_w = $id_w;
     $this->titre = $titre;
     $this->contenu = $contenu;
     $this->wiki_date = $wiki_date;
     $this->isArchive = $isArchive;
-    $this->img = $img;
+    
     $this->fk_aut_email = $fk_aut_email;
     $this-> fk_cat = $fk_cat;
 
@@ -138,29 +138,7 @@ public function __construct($id_w , $titre ,$contenu,$wiki_date , $isArchive , $
         return $this;
     }
 
-    /**
-     * Get the value of img
-     */ 
-    public function getImg()
-    {
-        return $this->img;
-    }
-
-    /**
-     * Set the value of img
-     *
-     * @return  self
-     */ 
-    public function setImg($img)
-    {
-        $this->img = $img;
-
-        return $this;
-    }
-
-    /**
-     * Get the value of fk_aut_email
-     */ 
+ 
     public function getFk_aut_email()
     {
         return $this->fk_aut_email;

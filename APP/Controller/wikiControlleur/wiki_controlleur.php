@@ -1,20 +1,17 @@
 <?php 
 
-// wiki_controlleur.php
 
 include_once 'APP\model\wikiModel\WikiDAO.php';
 
-// include_once '../../model/wikiModel/WikiDAO.php';
-// wiki_controlleur.php
+class WikiController{
 
-class WikiController
-{
-    public function wiki()
+
+    public function wiki($word = '')
     {
-        $wikiDAO = new WikiDAO();
 
-        $wikiData = $wikiDAO->selectWiki();
-        // var_dump($wikiData);
+        $wikiDAO = new WikiDAO();
+            $wikiData = $wikiDAO->selectWiki($word);
+  
         if (!empty($wikiData)) {
             include_once 'APP\view\view_wiki\home.php';
             echo '<br>';
@@ -22,29 +19,42 @@ class WikiController
             header('Location: TMP/404.php');
             exit;
         }
+
+    }
+
+    public function show($id_w){
+
+        $wikiDaO = new WikiDAO;
+        $wikiData = $wikiDaO->showDAO($id_w);
+         $Wiki_TG = $wikiDaO->getAlltag($id_w);
+        include_once 'APP\view\view_wiki\singelWiki.php';
+
     }
 
 
-    // public function search(){
-    //     // Check if the 'search' key is set in the $_GET array
-    //     $search = isset($_GET['search']) ? $_GET['search'] : '';
+    public function search($searchTerm)
+    {
+        if (!$searchTerm) {
+            $searchTerm = '';
+        }
     
-    //     // Rest of your code remains unchanged
-    //     $wikiDAO = new WikiDAO();
-    //     $wikiData = $wikiDAO->search($search);
-        
-    //     if($wikiData) {
-    //         echo json_encode(
-    //         array(
-    //             'wikiData' => $wikiData
-    //             )
-    //         );
-    //     } else {
-    //         echo json_encode(
-    //         array('wikiData' => 'not found')
-    //         );
-    //     }
-    // }
-       
+        $this->wiki($searchTerm);
+    }
+    
+    
 }
+
+class vehicule {
+
+
+
+}
+
+
+class voiture extends vehicule{
+
+
+}
+
+$obj = new voiture();
   

@@ -32,6 +32,18 @@ CREATE TABLE `categorie` (
   `cat_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+select wiki.titre , utilisateur.email 
+from wiki 
+join utilisateur ON  wiki.fk_aut_email = utilisateur.email;
+
+
+
+
+
+
+
+
+
 --
 -- Dumping data for table `categorie`
 --

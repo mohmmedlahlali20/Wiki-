@@ -2,9 +2,7 @@
 
 
 include_once 'APP\model\utilisateurModel\User.php';
-// include_once '../utilisateurModel/User.php';
-// include_once '../../connection/connection.php';
-include_once 'APP\connection\connection.php';  
+  
 
 class userDAO
 {
@@ -18,13 +16,13 @@ class userDAO
     public function InsertUser(User $user) {
         $email = $user->getEmail();
         $nom = $user->getNom();
-        $hashedPassword = password_hash($user->getPswd(), PASSWORD_DEFAULT); // Use password_hash here
+        $hashedPassword = password_hash($user->getPswd(), PASSWORD_DEFAULT); 
     
         if ($this->isEmailExists($email)) {
-            return false; // Email already registered
+            return false;
         }
     
-        try {
+        
             $sql = "INSERT INTO `utilisateur` (`email`, `nom`, `pswd`) VALUES (:email, :nom, :hashedPassword)";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindParam(':email', $email);
@@ -32,11 +30,8 @@ class userDAO
             $stmt->bindParam(':hashedPassword', $hashedPassword);
             $stmt->execute();
     
-            return true; // User inserted successfully
-        } catch (PDOException $e) {
-            error_log('Error inserting user: ' . $e->getMessage());
-            return false; // Operation failed
-        }
+            return true; 
+       
     }
     
 
@@ -45,11 +40,13 @@ class userDAO
         $stmt = $this->connection->prepare($sql);
         $stmt->bindParam(':email', $email);
         $stmt->execute();
-
-        return $stmt->fetchColumn() > 0;
+        $result = $stmt->fetchColumn() > 0;
+        return $result;
     }
+
+
     public function getUserByEmail($email) {
-        try {
+     
             $sql = "SELECT * FROM `utilisateur` WHERE `email` = :email";
             $stmt = $this->connection->prepare($sql);
             $stmt->bindParam(':email', $email);
@@ -60,12 +57,15 @@ class userDAO
             if ($user) {
                 return $user;
             } else {
-                return false; // User not found
+                return false; 
             }
-        } catch (PDOException $e) {
-            error_log('Error retrieving user by email: ' . $e->getMessage());
-            return false; // Operation failed
-        }
+      
+    }
+    public function CountUser(){
+        $count = "SELECT COUNT(*) FROM `utilisateur`";
+        $stmt = $this->connection->prepare($count);
+        $stmt->execute();
+        
     }
     
 }

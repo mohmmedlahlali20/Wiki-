@@ -10,21 +10,7 @@
                         <p class="font-medium text-lg">hello , </p>
                         <p>Please fill out all the fields.</p>
                     </div>
-                    <form action="index.php?action=ajouterTAG" method="POST">
-                        <div class="md:col-span-2">
-                            <label for="Tag">Tag</label>
-                            <input type="text" name="nom_tag" id="Tag"
-                                class="h-10 border mt-1 rounded px-4 w-50 bg-gray-50" value=""
-                                placeholder="Add a new Tag" />
-                        </div>
-                        <div class="md:col-span-5 text-right">
-                            <div class="inline-flex items-end">
-                                <button type="submit"
-                                    class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Add
-                                    tag</button>
-                            </div>
-                        </div>
-                    </form>
+                  
                 </div>
             </div>
         </div>
